@@ -9,11 +9,16 @@ use PHPUnit\Framework\TestCase;
 
 class TagParserTest extends TestCase
 {
+    protected $parser;
+
+    public function setUp(): void
+    {
+        $this->parser = new TagParser;
+    }
+
     public function test_it_parses_a_single_tag()
     {
-        $parser = new TagParser;
-
-        $result = $parser->parse('personal');
+        $result = $this->parser->parse('personal');
 
         $expected = ['personal'];
 
@@ -22,9 +27,7 @@ class TagParserTest extends TestCase
 
     public function test_it_parses_a_comma_separated_list_of_tags()
     {
-        $parser = new TagParser;
-
-        $result = $parser->parse('personal, money, family');
+        $result = $this->parser->parse('personal, money, family');
 
         $expected = ['personal', 'money', 'family'];
 
@@ -33,9 +36,7 @@ class TagParserTest extends TestCase
 
     public function test_spaces_are_optional()
     {
-        $parser = new TagParser;
-
-        $result = $parser->parse('personal,money,family');
+        $result = $this->parser->parse('personal,money,family');
 
         $expected = ['personal', 'money', 'family'];
 
@@ -45,11 +46,9 @@ class TagParserTest extends TestCase
 
     public function test_it_parses_pipe_pipe_separated_list_of_tags()
     {
-        $parser = new TagParser;
+        $result = $this->parser->parse('personal | money | family');
 
-        $result = $parser->parse('personal | money | family');
-
-        $expected = ['personal ','money','family'];
+        $expected = ['personal','money','family'];
 
         $this->assertSame($expected, $result);
     }
