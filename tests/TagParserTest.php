@@ -30,4 +30,27 @@ class TagParserTest extends TestCase
 
         $this->assertSame($expected, $result);
     }
+
+    public function test_spaces_are_optional()
+    {
+        $parser = new TagParser;
+
+        $result = $parser->parse('personal,money,family');
+
+        $expected = ['personal', 'money', 'family'];
+
+        $this->assertSame($expected, $result);
+    }
+
+
+    public function test_it_parses_pipe_pipe_separated_list_of_tags()
+    {
+        $parser = new TagParser;
+
+        $result = $parser->parse('personal | money | family');
+
+        $expected = ['personal ','money','family'];
+
+        $this->assertSame($expected, $result);
+    }
 }
